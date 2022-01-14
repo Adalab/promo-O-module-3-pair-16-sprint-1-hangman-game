@@ -5,13 +5,34 @@ function App() {
 
   const [numberOfErrors, setnumberofErrors] = useState(0);
   const [lastLetter, setlastLetter] = useState('');
+  const [userLetter, setUserLetter] = useState([]);
+  const word = "katacroker";
+  
+
+  const renderSolutionLetters = () => {
+    const keyWord = word.split('');
+   return keyWord.map(letter => {
+     return (
+     <li className="letter"></li>
+     )
+  });
+}
+
+/*  if (keyWord.includes(lastLetter)) {
+        <li className="letter"></li>
+     } else {
+     <li className="letter">{letter}</li>
+     } */
 
   const handleLastLetter = (ev) => {
     ev.preventDefault();
     setlastLetter(ev.currentTarget.value);
-    let expresion = new RegExp([a - zA - Z]);
-  }
-
+    setUserLetter([...userLetter, lastLetter]);
+   // const expresion = "^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$";
+   // let expresion = new RegExp([a - zA - Z]);
+ }
+ console.log(userLetter);
+  
 
   const handleClickBtn = (ev) => {
     ev.preventDefault();
@@ -32,16 +53,7 @@ function App() {
             <div className="solution">
               <h2 className="title">Solución:</h2>
               <ul className="letters">
-                <li className="letter">k</li>
-                <li className="letter">a</li>
-                <li className="letter"></li>
-                <li className="letter">a</li>
-                <li className="letter">k</li>
-                <li className="letter">r</li>
-                <li className="letter"></li>
-                <li className="letter">k</li>
-                <li className="letter">e</li>
-                <li className="letter">r</li>
+                {renderSolutionLetters()}
               </ul>
             </div>
             <div className="error">
