@@ -6,16 +6,28 @@ function App() {
   const [numberOfErrors, setnumberofErrors] = useState(0);
   const [lastLetter, setlastLetter] = useState('');
   const [userLetter, setUserLetter] = useState([]);
+  const [wrongLetter, setWrongLetter] = useState([]);
   const word = "katacroker";
+  const wrong = "fqhpx"
   
 
   const renderSolutionLetters = () => {
-    const keyWord = word.split('');
-   return keyWord.map(letter => {
+    const keyword = word.split('');
+   return keyword.map((letter, index) => {
      return (
-     <li className="letter"></li>
+     <li key={index} className="letter"></li>
      )
   });
+}
+
+const renderFailLetters = () => {
+ const keywrong = wrong.split('');
+ return keywrong.map((letter, index) => {
+   return (
+    <li key={index} className="letter"></li>
+    )
+ }
+ );
 }
 
 /*  if (keyWord.includes(lastLetter)) {
@@ -26,10 +38,18 @@ function App() {
 
   const handleLastLetter = (ev) => {
     ev.preventDefault();
-    setlastLetter(ev.currentTarget.value);
-    setUserLetter([...userLetter, lastLetter]);
-   // const expresion = "^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$";
-   // let expresion = new RegExp([a - zA - Z]);
+    const lastInput = ev.currentTarget.value;
+    if ( lastInput.match('^[a-zA-ZñÑ]?$')) {
+      setlastLetter(lastInput);
+      if( lastInput !== '') {
+        // Array solucion. Se sube el primer valor que siempre tendra lastLetter, que es vacio ''.
+        setUserLetter([...userLetter, lastLetter]);
+      } else {
+        // Array fallidas. Necesitamos comparar los arrays para subir a un array o a otro. 
+        setWrongLetter([...wrongLetter]);
+      }
+    }
+   
  }
  console.log(userLetter);
   
@@ -37,7 +57,6 @@ function App() {
   const handleClickBtn = (ev) => {
     ev.preventDefault();
     setnumberofErrors(numberOfErrors + 1);
-    //console.log(numberOfErrors);
   };
 
 
@@ -59,11 +78,7 @@ function App() {
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
               <ul className="letters">
-                <li className="letter">f</li>
-                <li className="letter">q</li>
-                <li className="letter">h</li>
-                <li className="letter">p</li>
-                <li className="letter">x</li>
+                {renderFailLetters()}
               </ul>
             </div>
             <form className="form">
